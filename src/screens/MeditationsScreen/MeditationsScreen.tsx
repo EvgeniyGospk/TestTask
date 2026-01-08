@@ -21,7 +21,11 @@ export function MeditationsScreen({ navigation }: Props) {
         data={meditations}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={
-          <Header isSubscribed={isSubscribed} onOpenPaywall={() => navigation.navigate(routes.Paywall)} />
+          <Header
+            isSubscribed={isSubscribed}
+            onOpenPaywall={() => navigation.navigate(routes.Paywall)}
+            onOpenAI={() => navigation.navigate(routes.MoodAI)}
+          />
         }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 28 }}
@@ -46,7 +50,15 @@ export function MeditationsScreen({ navigation }: Props) {
   );
 }
 
-function Header({ isSubscribed, onOpenPaywall }: { isSubscribed: boolean; onOpenPaywall: () => void }) {
+function Header({
+  isSubscribed,
+  onOpenPaywall,
+  onOpenAI,
+}: {
+  isSubscribed: boolean;
+  onOpenPaywall: () => void;
+  onOpenAI: () => void;
+}) {
   return (
     <View className="mb-5">
       <View className="mb-4">
@@ -67,6 +79,26 @@ function Header({ isSubscribed, onOpenPaywall }: { isSubscribed: boolean; onOpen
             style={({ pressed }) => [{ opacity: pressed ? 0.9 : 1 }]}
           >
             <Text className="text-xs font-semibold text-white/80">Premium</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      <View className="mb-5 rounded-3xl border border-white/10 bg-white/5 p-5">
+        <View className="flex-row items-center justify-between gap-3">
+          <View className="flex-1">
+            <Text className="text-base font-semibold text-white">AI Настрой дня</Text>
+            <Text className="mt-2 text-sm text-white/70">
+              Быстрая аффирмация или мини‑медитация под настроение.
+            </Text>
+          </View>
+          <Pressable
+            testID="open-ai-screen"
+            accessibilityRole="button"
+            onPress={onOpenAI}
+            className="rounded-2xl bg-white px-4 py-3"
+            style={({ pressed }) => [{ opacity: pressed ? 0.92 : 1 }]}
+          >
+            <Text className="text-sm font-semibold text-black">Открыть</Text>
           </Pressable>
         </View>
       </View>
