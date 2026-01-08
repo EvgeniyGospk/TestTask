@@ -6,6 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackScreenProps } from '@react-navigation/stack';
 
 import { routes, RootStackParamList } from '../../app/navigation/routes';
+import { useSubscription } from '../../app/providers/SubscriptionProvider';
 import { Button } from '../../components/ui/Button';
 
 type Props = StackScreenProps<RootStackParamList, typeof routes.Paywall>;
@@ -20,7 +21,9 @@ const benefits = [
 ];
 
 export function PaywallScreen({ navigation }: Props) {
+  const { buyPremium } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<Plan>('yearly');
+  const [isBuying, setIsBuying] = useState(false);
 
   const priceLabel = useMemo(() => {
     if (selectedPlan === 'monthly') return '299 ₽ / месяц';
@@ -94,7 +97,17 @@ export function PaywallScreen({ navigation }: Props) {
             <View className="mt-4">
               <Button
                 title="Попробовать бесплатно"
-                onPress={() => navigation.navigate(routes.Meditations)}
+                loading={isBuying}
+                onPress={async () => {
+                  if (isBuying) return;
+                  try {
+                    setIsBuying(true);
+                    await buyPremium(selectedPlan);
+                    navigation.replace(routes.Meditations);
+                  } finally {
+                    setIsBuying(false);
+                  }
+                }}
               />
             </View>
 
