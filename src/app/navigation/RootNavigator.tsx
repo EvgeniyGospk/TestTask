@@ -10,7 +10,7 @@ import { useSubscription } from '../providers/SubscriptionProvider';
 const Stack = createStackNavigator<RootStackParamList>();
 
 export function RootNavigator() {
-  const { isSubscribed, isReady } = useSubscription();
+  const { isReady } = useSubscription();
 
   if (!isReady) {
     return (
@@ -22,7 +22,7 @@ export function RootNavigator() {
 
   return (
     <Stack.Navigator
-      initialRouteName={isSubscribed ? routes.Meditations : routes.Paywall}
+      initialRouteName={routes.Meditations}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name={routes.Paywall} component={PaywallScreen} />
