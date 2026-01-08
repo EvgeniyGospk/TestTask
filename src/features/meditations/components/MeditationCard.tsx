@@ -11,6 +11,7 @@ type Props = {
 export function MeditationCard({ session, locked, onPress }: Props) {
   return (
     <Pressable
+      testID={`meditation-card-${session.id}`}
       accessibilityRole="button"
       onPress={onPress}
       className="mb-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5"
@@ -46,4 +47,3 @@ export function MeditationCard({ session, locked, onPress }: Props) {
     </Pressable>
   );
 }
-
