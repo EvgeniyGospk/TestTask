@@ -24,6 +24,7 @@ export function PaywallScreen({ navigation }: Props) {
   const { buyPremium } = useSubscription();
   const [selectedPlan, setSelectedPlan] = useState<Plan>('yearly');
   const [isBuying, setIsBuying] = useState(false);
+  const canGoBack = navigation.canGoBack();
 
   const priceLabel = useMemo(() => {
     if (selectedPlan === 'monthly') return '299 ₽ / месяц';
@@ -47,6 +48,19 @@ export function PaywallScreen({ navigation }: Props) {
           contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 16, paddingBottom: 28 }}
           keyboardShouldPersistTaps="handled"
         >
+          {canGoBack ? (
+            <View className="mb-3 flex-row justify-end">
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => navigation.goBack()}
+                className="h-10 w-10 items-center justify-center rounded-full bg-white/10"
+                style={({ pressed }) => [{ opacity: pressed ? 0.9 : 1 }]}
+              >
+                <Text className="text-lg font-semibold text-white">✕</Text>
+              </Pressable>
+            </View>
+          ) : null}
+
           <View className="mb-6">
             <Text className="text-sm font-semibold text-white/70">ZenPulse Premium</Text>
             <Text className="mt-2 text-4xl font-bold text-white">Сфокусируйся{'\n'}и дыши глубже</Text>
@@ -102,7 +116,11 @@ export function PaywallScreen({ navigation }: Props) {
                   try {
                     setIsBuying(true);
                     await buyPremium(selectedPlan);
-                    navigation.replace(routes.Meditations);
+                    if (navigation.canGoBack()) {
+                      navigation.goBack();
+                    } else {
+                      navigation.replace(routes.Meditations);
+                    }
                   } finally {
                     setIsBuying(false);
                   }
