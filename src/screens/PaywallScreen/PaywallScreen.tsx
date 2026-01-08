@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { useMemo, useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { StackScreenProps } from '@react-navigation/stack';
@@ -39,60 +39,70 @@ export function PaywallScreen({ navigation }: Props) {
       end={{ x: 1, y: 1 }}
       style={{ flex: 1 }}
     >
-      <SafeAreaView style={{ flex: 1, paddingHorizontal: 20, paddingVertical: 16 }}>
-        <View className="mb-6">
-          <Text className="text-sm font-semibold text-white/70">ZenPulse Premium</Text>
-          <Text className="mt-2 text-4xl font-bold text-white">Сфокусируйся{'\n'}и дыши глубже</Text>
-          <Text className="mt-3 text-base text-white/70">
-            Разблокируй премиальные сессии и получай ежедневную поддержку через AI‑настрой.
-          </Text>
-        </View>
-
-        <View className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-5">
-          <Text className="text-base font-semibold text-white">Что входит в Premium</Text>
-          <View className="mt-4 gap-3">
-            {benefits.map((b) => (
-              <View key={b} className="flex-row items-start">
-                <Text className="mr-3 mt-0.5 text-base text-white/80">✦</Text>
-                <Text className="flex-1 text-sm text-white/80">{b}</Text>
-              </View>
-            ))}
-          </View>
-        </View>
-
-        <View className="mb-6">
-          <Text className="mb-3 text-base font-semibold text-white">Выбери тариф</Text>
-
-          <PlanCard
-            title="Годовой"
-            subtitle="Лучшее предложение"
-            price="1 990 ₽ / год"
-            badge="Выгодно"
-            selected={selectedPlan === 'yearly'}
-            onPress={() => setSelectedPlan('yearly')}
-          />
-          <View className="h-3" />
-          <PlanCard
-            title="Месячный"
-            subtitle="Гибкий вариант"
-            price="299 ₽ / месяц"
-            selected={selectedPlan === 'monthly'}
-            onPress={() => setSelectedPlan('monthly')}
-          />
-        </View>
-
-        <View className="rounded-3xl border border-white/10 bg-black/25 p-5">
-          <Text className="text-sm font-semibold text-white/80">{priceLabel}</Text>
-          <Text className="mt-1 text-xs text-white/60">{secondaryLabel}</Text>
-
-          <View className="mt-4">
-            <Button title="Попробовать бесплатно" onPress={() => navigation.navigate(routes.Meditations)} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 16, paddingBottom: 28 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="mb-6">
+            <Text className="text-sm font-semibold text-white/70">ZenPulse Premium</Text>
+            <Text className="mt-2 text-4xl font-bold text-white">
+              Сфокусируйся{'\n'}и дыши глубже
+            </Text>
+            <Text className="mt-3 text-base text-white/70">
+              Разблокируй премиальные сессии и получай ежедневную поддержку через AI‑настрой.
+            </Text>
           </View>
 
-          <Text className="mt-3 text-center text-xs text-white/50">
-            Тестовый прототип: покупка имитируется, списаний нет.
-          </Text>
-        </View>
+          <View className="mb-6 rounded-3xl border border-white/10 bg-white/5 p-5">
+            <Text className="text-base font-semibold text-white">Что входит в Premium</Text>
+            <View className="mt-4 gap-3">
+              {benefits.map((b) => (
+                <View key={b} className="flex-row items-start">
+                  <Text className="mr-3 mt-0.5 text-base text-white/80">✦</Text>
+                  <Text className="flex-1 text-sm text-white/80">{b}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
+          <View className="mb-6">
+            <Text className="mb-3 text-base font-semibold text-white">Выбери тариф</Text>
+
+            <PlanCard
+              title="Годовой"
+              subtitle="Лучшее предложение"
+              price="1 990 ₽ / год"
+              badge="Выгодно"
+              selected={selectedPlan === 'yearly'}
+              onPress={() => setSelectedPlan('yearly')}
+            />
+            <View className="h-3" />
+            <PlanCard
+              title="Месячный"
+              subtitle="Гибкий вариант"
+              price="299 ₽ / месяц"
+              selected={selectedPlan === 'monthly'}
+              onPress={() => setSelectedPlan('monthly')}
+            />
+          </View>
+
+          <View className="rounded-3xl border border-white/10 bg-black/25 p-5">
+            <Text className="text-sm font-semibold text-white/80">{priceLabel}</Text>
+            <Text className="mt-1 text-xs text-white/60">{secondaryLabel}</Text>
+
+            <View className="mt-4">
+              <Button
+                title="Попробовать бесплатно"
+                onPress={() => navigation.navigate(routes.Meditations)}
+              />
+            </View>
+
+            <Text className="mt-3 text-center text-xs text-white/50">
+              Тестовый прототип: покупка имитируется, списаний нет.
+            </Text>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </LinearGradient>
   );
